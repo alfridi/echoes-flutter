@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants/supabase_constants.dart';
 
@@ -33,12 +34,14 @@ class SupabaseService {
   static Future<Supabase> initialize({
     String? url,
     String? anonKey,
+    String? publishableKey,
+    http.Client? httpClient,
     bool? debug,
   }) async {
     return await Supabase.initialize(
       url: url ?? SupabaseConstants.url,
-      // ignore: deprecated_member_use
-      anonKey: anonKey ?? SupabaseConstants.anonKey,
+      publishableKey: publishableKey ?? anonKey ?? SupabaseConstants.publishableKey,
+      httpClient: httpClient,
       debug: debug ?? false,
     );
   }
@@ -59,6 +62,35 @@ class SupabaseService {
   /// Returns `true` if an active session exists.
   bool get isAuthenticated => client.auth.currentUser != null;
 
+  /// Signs in with email and password for registered Echo Keepers / custodians.
+  Future<AuthResponse> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {
+    return await client.auth.signInWithPassword(
+      email: email.trim(),
+      password: password,
+    );
+  }
+
+  /// Registers a new Echo Keeper account with email, password, and metadata.
+  Future<AuthResponse> signUp({
+    required String email,
+    required String password,
+    Map<String, dynamic>? data,
+  }) async {
+    return await client.auth.signUp(
+      email: email.trim(),
+      password: password,
+      data: data,
+    );
+  }
+
+  /// Sends a password reset link to the specified email.
+  Future<void> resetPasswordForEmail(String email) async {
+    await client.auth.resetPasswordForEmail(email.trim());
+  }
+
   /// Signs in anonymously to enable guest dialect browsing and recording sessions.
   Future<AuthResponse> signInAnonymously({Map<String, dynamic>? data}) async {
     return await client.auth.signInAnonymously(data: data);
@@ -67,6 +99,31 @@ class SupabaseService {
   /// Signs out the active user session.
   Future<void> signOut() async {
     await client.auth.signOut();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Profile Database Operations
+  // ---------------------------------------------------------------------------
+
+  /// Fetches the profile from the `profiles` table for the given user ID.
+  Future<Map<String, dynamic>?> fetchProfile(String userId) async {
+    try {
+      final response = await client
+          .from(SupabaseConstants.tableProfiles)
+          .select()
+          .eq('id', userId)
+          .maybeSingle();
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Upserts profile details into the `profiles` table.
+  Future<void> upsertProfile(Map<String, dynamic> profileData) async {
+    await client
+        .from(SupabaseConstants.tableProfiles)
+        .upsert(profileData);
   }
 
   // ---------------------------------------------------------------------------
