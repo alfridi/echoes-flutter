@@ -9,6 +9,10 @@ import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/explore/explore_cubit.dart';
 import '../../features/authentication/data/repositories/auth_repository_impl.dart';
 import '../../features/authentication/domain/repositories/auth_repository.dart';
+import '../../features/recordings/data/datasources/recording_supabase_datasource.dart';
+import '../../features/recordings/data/repositories/recording_repository_impl.dart';
+import '../../features/recordings/domain/repositories/recording_repository.dart'
+    as feature_rec;
 import '../../repositories/language_repository.dart';
 import '../../repositories/recording_repository.dart';
 import '../../repositories/word_repository.dart';
@@ -107,6 +111,16 @@ Future<void> setupServiceLocator({
   if (!getIt.isRegistered<RecordingRepository>()) {
     getIt.registerLazySingleton<RecordingRepository>(
       () => SupabaseRecordingRepository(supabase: getIt<SupabaseService>()),
+    );
+  }
+
+  if (!getIt.isRegistered<feature_rec.RecordingRepository>()) {
+    getIt.registerLazySingleton<feature_rec.RecordingRepository>(
+      () => RecordingRepositoryImpl(
+        datasource: RecordingSupabaseDatasource(
+          client: getIt<SupabaseService>().client,
+        ),
+      ),
     );
   }
 
