@@ -171,35 +171,41 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: const BoxDecoration(
-                  color: AppColors.secondaryFixed,
-                  borderRadius: AppRadii.full,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColors.secondary,
-                        shape: BoxShape.circle,
+              const SizedBox(width: 8),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: AppColors.secondaryFixed,
+                    borderRadius: AppRadii.full,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: AppColors.secondary,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      '${language.branch.toUpperCase()} BRANCH',
-                      style: AppTypography.labelSm.copyWith(
-                        color: AppColors.onSecondaryFixed,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(width: 6),
+                      Flexible(
+                        child: Text(
+                          '${language.branch.toUpperCase()} BRANCH',
+                          style: AppTypography.labelSm.copyWith(
+                            color: AppColors.onSecondaryFixed,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -211,11 +217,14 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
             children: [
               Text(language.countryEmoji, style: const TextStyle(fontSize: 18)),
               const SizedBox(width: 6),
-              Text(
-                language.region.toUpperCase(),
-                style: AppTypography.labelMd.copyWith(
-                  letterSpacing: 1.1,
-                  color: AppColors.outline,
+              Expanded(
+                child: Text(
+                  language.region.toUpperCase(),
+                  style: AppTypography.labelMd.copyWith(
+                    letterSpacing: 1.1,
+                    color: AppColors.outline,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -227,7 +236,13 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(language.name, style: AppTypography.headlineLg),
+              Expanded(
+                child: Text(
+                  language.name,
+                  style: AppTypography.headlineLg,
+                ),
+              ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: const BoxDecoration(
@@ -364,20 +379,22 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Words & Expressions',
-                    style: AppTypography.headlineSm.copyWith(
-                      color: AppColors.primary,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Words & Expressions',
+                      style: AppTypography.headlineSm.copyWith(
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Listen to authentic pronunciations recorded by native custodians',
-                    style: AppTypography.bodySm,
-                  ),
-                ],
+                    Text(
+                      'Listen to authentic pronunciations recorded by native custodians',
+                      style: AppTypography.bodySm,
+                    ),
+                  ],
+                ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -449,11 +466,14 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
                         color: AppColors.tertiaryFixed,
                       ),
                       const SizedBox(width: 5),
-                      Text(
-                        'ORAL PRESERVATION DRIVE',
-                        style: AppTypography.labelSm.copyWith(
-                          color: AppColors.tertiaryFixed,
-                          fontWeight: FontWeight.bold,
+                      Flexible(
+                        child: Text(
+                          'ORAL PRESERVATION DRIVE',
+                          style: AppTypography.labelSm.copyWith(
+                            color: AppColors.tertiaryFixed,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -525,13 +545,17 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      word.category.toUpperCase(),
-                      style: AppTypography.labelSm.copyWith(
-                        color: AppColors.secondary,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Text(
+                        word.category.toUpperCase(),
+                        style: AppTypography.labelSm.copyWith(
+                          color: AppColors.secondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
@@ -623,35 +647,42 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 12,
-                          backgroundImage: word.contributorAvatarUrl.isNotEmpty
-                              ? NetworkImage(word.contributorAvatarUrl)
-                              : null,
-                          child: word.contributorAvatarUrl.isEmpty
-                              ? const Icon(Icons.person, size: 14)
-                              : null,
-                        ),
-                        const SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Archived by ${word.contributorName}',
-                              style: AppTypography.labelSm,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundImage: word.contributorAvatarUrl.isNotEmpty
+                                ? NetworkImage(word.contributorAvatarUrl)
+                                : null,
+                            child: word.contributorAvatarUrl.isEmpty
+                                ? const Icon(Icons.person, size: 14)
+                                : null,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Archived by ${word.contributorName}',
+                                  style: AppTypography.labelSm,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  'Duration: ${_formatDuration(word.duration)}',
+                                  style: AppTypography.labelSm.copyWith(
+                                    color: AppColors.outline,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                            Text(
-                              'Duration: ${_formatDuration(word.duration)}',
-                              style: AppTypography.labelSm.copyWith(
-                                color: AppColors.outline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     FilledButton.icon(
                       style: FilledButton.styleFrom(
                         backgroundColor: isPlayingThisTrack

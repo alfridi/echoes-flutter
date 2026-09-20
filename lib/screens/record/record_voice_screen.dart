@@ -141,60 +141,70 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen>
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Column(
-              children: [
-                // 1. Target Prompt Card
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    color: AppColors.surfaceContainerLow,
-                    borderRadius: AppRadii.lg,
-                    boxShadow: AppShadows.paperCard,
-                  ),
+          body: SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 600),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.history_edu,
-                                size: 16,
-                                color: AppColors.secondary,
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                'YOU ARE PRESERVING',
-                                style: AppTypography.labelSm.copyWith(
-                                  letterSpacing: 1.1,
+                      // 1. Target Prompt Card
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: const BoxDecoration(
+                          color: AppColors.surfaceContainerLow,
+                          borderRadius: AppRadii.lg,
+                          boxShadow: AppShadows.paperCard,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.history_edu,
+                                        size: 16,
+                                        color: AppColors.secondary,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(
+                                          'YOU ARE PRESERVING',
+                                          style: AppTypography.labelSm.copyWith(
+                                            letterSpacing: 1.1,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.surfaceContainerHigh,
+                                    borderRadius: AppRadii.full,
+                                  ),
+                                  child: Text(
+                                    widget.languageId.toUpperCase(),
+                                    style: AppTypography.labelSm.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            decoration: const BoxDecoration(
-                              color: AppColors.surfaceContainerHigh,
-                              borderRadius: AppRadii.full,
-                            ),
-                            child: Text(
-                              widget.languageId.toUpperCase(),
-                              style: AppTypography.labelSm.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       const SizedBox(height: 8),
                       Text(
                         _word?.englishWord ?? 'Word',
@@ -430,13 +440,17 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'PREVIEW CAPTURED ECHO',
-                                  style: AppTypography.labelSm.copyWith(
-                                    color: AppColors.secondary,
-                                    fontWeight: FontWeight.bold,
+                                Expanded(
+                                  child: Text(
+                                    'PREVIEW CAPTURED ECHO',
+                                    style: AppTypography.labelSm.copyWith(
+                                      color: AppColors.secondary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
+                                const SizedBox(width: 8),
                                 FilledButton.icon(
                                   style: FilledButton.styleFrom(
                                     backgroundColor: isPreviewPlaying
@@ -604,15 +618,18 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen>
                               : (isRecording ? Icons.stop_circle : Icons.mic),
                           size: 20,
                         ),
-                        label: Text(
-                          isUploading
-                              ? 'Preserving...'
-                              : (isCaptured
-                                  ? 'Upload to Supabase'
-                                  : (isRecording
-                                      ? 'Stop & Review'
-                                      : 'Start Recording')),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            isUploading
+                                ? 'Preserving...'
+                                : (isCaptured
+                                    ? 'Upload to Supabase'
+                                    : (isRecording
+                                        ? 'Stop & Review'
+                                        : 'Start Recording')),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
@@ -622,7 +639,10 @@ class _RecordVoiceScreenState extends State<RecordVoiceScreen>
               ],
             ),
           ),
-        );
+        ),
+      ),
+    ),
+  );
       },
     );
   }

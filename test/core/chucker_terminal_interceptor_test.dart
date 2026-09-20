@@ -175,8 +175,8 @@ void main() {
         logCallback: (msg) => logs.add(msg),
       );
 
-      expect(
-        () => client.get(
+      await expectLater(
+        client.get(
           Uri.parse('https://example.com/api/offline'),
           headers: {'Authorization': 'Bearer token'},
         ),

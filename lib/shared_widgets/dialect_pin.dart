@@ -30,6 +30,7 @@ class DialectPinWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
+            constraints: const BoxConstraints(maxWidth: 160),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: isFeatured
@@ -49,12 +50,16 @@ class DialectPinWidget extends StatelessWidget {
               children: [
                 Text(countryEmoji, style: const TextStyle(fontSize: 14)),
                 const SizedBox(width: 4),
-                Text(
-                  dialectName,
-                  style: AppTypography.labelSm.copyWith(
-                    color: isFeatured
-                        ? AppColors.primaryFixed
-                        : AppColors.onSurface,
+                Flexible(
+                  child: Text(
+                    dialectName,
+                    style: AppTypography.labelSm.copyWith(
+                      color: isFeatured
+                          ? AppColors.primaryFixed
+                          : AppColors.onSurface,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -71,6 +76,7 @@ class DialectPinWidget extends StatelessWidget {
           ),
           if (isFeatured)
             Container(
+              constraints: const BoxConstraints(maxWidth: 160),
               margin: const EdgeInsets.only(top: 4),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
@@ -80,6 +86,8 @@ class DialectPinWidget extends StatelessWidget {
               child: Text(
                 '$dialectName · $echoesCount echoes',
                 style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
         ],

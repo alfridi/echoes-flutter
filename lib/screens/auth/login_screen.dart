@@ -272,11 +272,14 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  'CUSTODIAN ACCESS',
-                                  style: AppTypography.labelSm.copyWith(
-                                    color: AppColors.secondary,
-                                    letterSpacing: 1.2,
+                                Flexible(
+                                  child: Text(
+                                    'CUSTODIAN ACCESS',
+                                    style: AppTypography.labelSm.copyWith(
+                                      color: AppColors.secondary,
+                                      letterSpacing: 1.2,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -595,12 +598,15 @@ class _LoginScreenState extends State<LoginScreen>
                                             size: 18,
                                           ),
                                           const SizedBox(width: 8),
-                                          Text(
-                                            _mode == AuthMode.signIn
-                                                ? 'Sign In as Custodian'
-                                                : 'Register Echo Keeper Account',
-                                            style: AppTypography.labelLg.copyWith(
-                                              color: Colors.white,
+                                          Flexible(
+                                            child: Text(
+                                              _mode == AuthMode.signIn
+                                                  ? 'Sign In as Custodian'
+                                                  : 'Register Echo Keeper Account',
+                                              style: AppTypography.labelLg.copyWith(
+                                                color: Colors.white,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -614,16 +620,19 @@ class _LoginScreenState extends State<LoginScreen>
                                   const Expanded(
                                     child: Divider(color: AppColors.outlineVariant),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                    ),
-                                    child: Text(
-                                      'OR DISCOVER ANONYMOUSLY',
-                                      style: AppTypography.labelSm.copyWith(
-                                        color: AppColors.outline,
-                                        fontSize: 10,
-                                        letterSpacing: 1.0,
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                      ),
+                                      child: Text(
+                                        'OR DISCOVER ANONYMOUSLY',
+                                        style: AppTypography.labelSm.copyWith(
+                                          color: AppColors.outline,
+                                          fontSize: 10,
+                                          letterSpacing: 0.5,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   ),
@@ -647,6 +656,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   style: AppTypography.labelLg.copyWith(
                                     color: AppColors.primary,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: AppColors.surfaceContainer,

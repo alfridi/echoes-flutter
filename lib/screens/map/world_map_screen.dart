@@ -61,25 +61,31 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
               ),
             ),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'ECHOES',
-                  style: AppTypography.labelSm.copyWith(
-                    letterSpacing: 2.0,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.secondary,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'ECHOES',
+                    style: AppTypography.labelSm.copyWith(
+                      letterSpacing: 2.0,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.secondary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Text(
-                  'Living Atlas',
-                  style: AppTypography.headlineSm.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
+                  Text(
+                    'Living Atlas',
+                    style: AppTypography.headlineSm.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -393,12 +399,16 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Preserved Dialects',
-                  style: AppTypography.headlineSm.copyWith(
-                    color: AppColors.primary,
+                Expanded(
+                  child: Text(
+                    'Preserved Dialects',
+                    style: AppTypography.headlineSm.copyWith(
+                      color: AppColors.primary,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
                   '${filteredLanguages.length} Languages',
                   style: AppTypography.labelMd.copyWith(
@@ -448,16 +458,25 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      language.countryEmoji,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(language.name, style: AppTypography.headlineSm),
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      Text(
+                        language.countryEmoji,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          language.name,
+                          style: AppTypography.headlineSm,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6,
@@ -485,10 +504,13 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${language.verifiedAudioCount} voices',
-                  style: AppTypography.labelSm.copyWith(
-                    color: AppColors.outline,
+                Expanded(
+                  child: Text(
+                    '${language.verifiedAudioCount} voices',
+                    style: AppTypography.labelSm.copyWith(
+                      color: AppColors.outline,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
@@ -517,7 +539,6 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
   // ---------------------------------------------------------------------------
   Widget _buildEditorialBottomBar() {
     return Container(
-      height: 72,
       decoration: BoxDecoration(
         color: AppColors.surface.withValues(alpha: 0.96),
         boxShadow: const [
@@ -528,41 +549,46 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavTab(0, Icons.public, 'Atlas'),
-          _buildNavTab(1, Icons.auto_stories, 'Archive'),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 64,
+          child: Row(
+            children: [
+              Expanded(child: _buildNavTab(0, Icons.public, 'Atlas')),
+              Expanded(child: _buildNavTab(1, Icons.auto_stories, 'Archive')),
 
-          // Elevated Center Record Expedition Button
-          GestureDetector(
-            onTap: () => context.push('/record'),
-            child: Container(
-              width: 52,
-              height: 52,
-              margin: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.35),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
+              // Elevated Center Record Expedition Button
+              GestureDetector(
+                onTap: () => context.push('/record'),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.35),
+                        blurRadius: 16,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ],
+                  child: const Icon(
+                    Icons.mic,
+                    color: AppColors.onPrimary,
+                    size: 24,
+                  ),
+                ),
               ),
-              child: const Icon(
-                Icons.mic,
-                color: AppColors.onPrimary,
-                size: 26,
-              ),
-            ),
-          ),
 
-          _buildNavTab(2, Icons.bookmark_border, 'Saved'),
-          _buildNavTab(3, Icons.person_outline, 'Custodian'),
-        ],
+              Expanded(child: _buildNavTab(2, Icons.bookmark_border, 'Saved')),
+              Expanded(child: _buildNavTab(3, Icons.person_outline, 'Custodian')),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -573,22 +599,26 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
       onTap: () => setState(() => _selectedNavIndex = index),
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               color: isSelected ? AppColors.primary : AppColors.onSurfaceVariant,
-              size: 22,
+              size: 20,
             ),
             const SizedBox(height: 3),
-            Text(
-              label,
-              style: AppTypography.labelSm.copyWith(
-                color:
-                    isSelected ? AppColors.primary : AppColors.onSurfaceVariant,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                style: AppTypography.labelSm.copyWith(
+                  color:
+                      isSelected ? AppColors.primary : AppColors.onSurfaceVariant,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
             ),
           ],
