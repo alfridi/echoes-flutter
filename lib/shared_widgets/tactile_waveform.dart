@@ -86,12 +86,16 @@ class _TactileWaveformWidgetState extends State<TactileWaveformWidget>
                 color = AppColors.outlineVariant;
               }
 
-              return Container(
-                width: 3.5,
-                height: barHeight,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(99),
+              return Expanded(
+                child: Center(
+                  child: Container(
+                    width: 3.5,
+                    height: barHeight,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(99),
+                    ),
+                  ),
                 ),
               );
             }),

@@ -50,34 +50,40 @@ class FeaturedEchoCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColors.secondaryFixed,
-                      borderRadius: AppRadii.full,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.graphic_eq,
-                          size: 14,
-                          color: AppColors.onSecondaryFixed,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          'FEATURED ECHO OF THE DAY',
-                          style: AppTypography.labelSm.copyWith(
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: AppColors.secondaryFixed,
+                        borderRadius: AppRadii.full,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.graphic_eq,
+                            size: 14,
                             color: AppColors.onSecondaryFixed,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 5),
+                          Flexible(
+                            child: Text(
+                              'FEATURED ECHO OF THE DAY',
+                              style: AppTypography.labelSm.copyWith(
+                                color: AppColors.onSecondaryFixed,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     'Daily Selection',
                     style: AppTypography.labelSm.copyWith(
@@ -97,20 +103,21 @@ class FeaturedEchoCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 6,
+                          runSpacing: 4,
                           children: [
                             Text(
                               countryEmoji,
                               style: const TextStyle(fontSize: 18),
                             ),
-                            const SizedBox(width: 6),
                             Text(
                               langName,
                               style: AppTypography.headlineSm.copyWith(
                                 color: AppColors.primary,
                               ),
                             ),
-                            const SizedBox(width: 6),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 6,
@@ -205,11 +212,21 @@ class FeaturedEchoCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Acoustic Waveform', style: AppTypography.labelSm),
-                        Text(
-                          '48 kHz · Lossless Archival Audio',
-                          style: AppTypography.labelMd.copyWith(
-                            color: AppColors.secondary,
+                        Flexible(
+                          child: Text(
+                            'Acoustic Waveform',
+                            style: AppTypography.labelSm,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            '48 kHz · Lossless Archival Audio',
+                            style: AppTypography.labelMd.copyWith(
+                              color: AppColors.secondary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -229,24 +246,30 @@ class FeaturedEchoCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage: word.contributorAvatarUrl.isNotEmpty
-                            ? NetworkImage(word.contributorAvatarUrl)
-                            : null,
-                        child: word.contributorAvatarUrl.isEmpty
-                            ? const Icon(Icons.person, size: 14)
-                            : null,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Recorded by ${word.contributorName}',
-                        style: AppTypography.bodySm,
-                      ),
-                    ],
+                  Expanded(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 12,
+                          backgroundImage: word.contributorAvatarUrl.isNotEmpty
+                              ? NetworkImage(word.contributorAvatarUrl)
+                              : null,
+                          child: word.contributorAvatarUrl.isEmpty
+                              ? const Icon(Icons.person, size: 14)
+                              : null,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Recorded by ${word.contributorName}',
+                            style: AppTypography.bodySm,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 8),
                   TextButton.icon(
                     onPressed: onDetailsTap,
                     icon: const Icon(Icons.arrow_forward, size: 16),

@@ -328,10 +328,13 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                           color: AppColors.outline,
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          'Origin territory: ${word.originTerritory}',
-                          style: AppTypography.labelSm.copyWith(
-                            color: AppColors.outline,
+                        Expanded(
+                          child: Text(
+                            'Origin territory: ${word.originTerritory}',
+                            style: AppTypography.labelSm.copyWith(
+                              color: AppColors.outline,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -353,22 +356,28 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.graphic_eq,
-                              size: 16,
-                              color: AppColors.primary,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'ARCHIVAL MASTER RECORDING',
-                              style: AppTypography.labelSm.copyWith(
-                                letterSpacing: 1.1,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.graphic_eq,
+                                size: 16,
+                                color: AppColors.primary,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  'ARCHIVAL MASTER RECORDING',
+                                  style: AppTypography.labelSm.copyWith(
+                                    letterSpacing: 1.1,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
@@ -524,12 +533,16 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Community Echoes',
-                    style: AppTypography.headlineSm.copyWith(
-                      color: AppColors.primary,
+                  Expanded(
+                    child: Text(
+                      'Community Echoes',
+                      style: AppTypography.headlineSm.copyWith(
+                        color: AppColors.primary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     '${_communityRecordings.length} Recordings',
                     style: AppTypography.labelMd.copyWith(
@@ -615,23 +628,31 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      rec.contributorName,
-                                      style: AppTypography.labelLg,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 2,
-                                      ),
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.surfaceContainerHigh,
-                                        borderRadius: AppRadii.sm,
-                                      ),
+                                    Expanded(
                                       child: Text(
-                                        rec.acousticFidelity,
-                                        style: AppTypography.labelSm.copyWith(
-                                          color: AppColors.primary,
+                                        rec.contributorName,
+                                        style: AppTypography.labelLg,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
+                                        decoration: const BoxDecoration(
+                                          color: AppColors.surfaceContainerHigh,
+                                          borderRadius: AppRadii.sm,
+                                        ),
+                                        child: Text(
+                                          rec.acousticFidelity,
+                                          style: AppTypography.labelSm.copyWith(
+                                            color: AppColors.primary,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),
@@ -653,15 +674,18 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      DateFormat('MMM d, yyyy')
-                                          .format(rec.createdAt),
-                                      style: AppTypography.labelSm.copyWith(
-                                        color: AppColors.outline,
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      child: Text(
+                                        DateFormat('MMM d, yyyy')
+                                            .format(rec.createdAt),
+                                        style: AppTypography.labelSm.copyWith(
+                                          color: AppColors.outline,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    const Spacer(),
+                                    const SizedBox(width: 8),
                                     const Icon(
                                       Icons.thumb_up_outlined,
                                       size: 13,
