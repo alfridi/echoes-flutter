@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/constants/app_dimensions.dart';
+import '../../cubits/auth/auth_cubit.dart';
 import '../../shared_widgets/echoes_emblem.dart';
 
 /// Screen 1: Onboarding screen introducing the living audio archive.
@@ -228,9 +230,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // Primary CTA: Explore the Atlas navigating to /world-map
+                  // Primary CTA: Explore the Atlas navigating to /world-map (if authenticated) or /login
                   ElevatedButton.icon(
-                    onPressed: () => context.go('/world-map'),
+                    onPressed: () {
+                      try {
+                        final auth = context.read<AuthCubit>();
+                        if (auth.state.isAuthenticated) {
+                          context.go('/world-map');
+                          return;
+                        }
+                      } catch (_) {}
+                      context.go('/login');
+                    },
                     label: const Text('Explore the Atlas'),
                     icon: const Icon(Icons.arrow_forward, size: 18),
                     style: ElevatedButton.styleFrom(

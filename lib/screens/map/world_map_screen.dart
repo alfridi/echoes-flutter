@@ -9,6 +9,7 @@ import '../../cubits/auth/auth_state.dart';
 import '../../cubits/explore/explore_cubit.dart';
 import '../../cubits/explore/explore_state.dart';
 import '../../models/language.dart';
+import '../../shared_widgets/logout_confirmation_dialog.dart';
 import 'widgets/archival_map_canvas.dart';
 import 'widgets/featured_echo_card.dart';
 
@@ -96,7 +97,18 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
                 return IconButton(
                   tooltip: 'Sign Out (${authState.profile.displayName})',
                   icon: const Icon(Icons.logout, size: 20),
-                  onPressed: () => context.read<AuthCubit>().signOut(),
+                  onPressed: () async {
+                    final confirmed = await showLogoutConfirmationDialog(
+                      context,
+                      displayName: authState.profile.displayName,
+                    );
+                    if (confirmed == true && context.mounted) {
+                      await context.read<AuthCubit>().signOut();
+                      if (context.mounted) {
+                        context.go('/login');
+                      }
+                    }
+                  },
                 );
               }
               return TextButton.icon(
