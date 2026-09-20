@@ -7,11 +7,16 @@ import '../../cubits/audio_player/audio_player_cubit.dart';
 import '../../cubits/audio_recorder/audio_recorder_cubit.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/explore/explore_cubit.dart';
+import '../../features/authentication/data/repositories/auth_repository_impl.dart';
+import '../../features/authentication/domain/repositories/auth_repository.dart';
 import '../../repositories/language_repository.dart';
 import '../../repositories/recording_repository.dart';
 import '../../repositories/word_repository.dart';
+import '../network/api_client.dart';
 import '../network/chucker_terminal_interceptor.dart';
+import '../router/app_router.dart';
 import '../services/supabase_service.dart';
+import '../storage/secure_storage_service.dart';
 
 /// Global service locator instance powered by `get_it`.
 final GetIt getIt = GetIt.instance;
@@ -20,10 +25,13 @@ final GetIt getIt = GetIt.instance;
 GetIt get sl => getIt;
 
 /// Configures and registers all application dependencies, repositories,
-/// network interceptors (Chucker), and cubits.
+/// network interceptors (Chucker, ApiClient), secure storage, and cubits.
 Future<void> setupServiceLocator({
   http.Client? customHttpClient,
   SupabaseService? customSupabaseService,
+  SecureStorageService? customSecureStorageService,
+  ApiClient? customApiClient,
+  AuthRepository? customAuthRepository,
   bool enableChucker = true,
 }) async {
   // 1. Configure Chucker to completely disable in-app notifications and release UI
@@ -44,14 +52,46 @@ Future<void> setupServiceLocator({
     getIt.registerLazySingleton<http.Client>(() => effectiveClient);
   }
 
-  // 2. Supabase Backend Service
+  // 3. Secure Storage Service (FlutterSecureStorage)
+  if (!getIt.isRegistered<SecureStorageService>()) {
+    getIt.registerLazySingleton<SecureStorageService>(
+      () => customSecureStorageService ?? SecureStorageService(),
+    );
+  }
+
+  // 4. Centralized API Client & Network Interceptor
+  if (!getIt.isRegistered<ApiClient>()) {
+    getIt.registerLazySingleton<ApiClient>(
+      () =>
+          customApiClient ??
+          ApiClient(
+            innerClient: getIt<http.Client>(),
+            secureStorage: getIt<SecureStorageService>(),
+          ),
+    );
+  }
+
+  // 5. Supabase Backend Service
   if (!getIt.isRegistered<SupabaseService>()) {
     getIt.registerLazySingleton<SupabaseService>(
       () => customSupabaseService ?? SupabaseService(),
     );
   }
 
-  // 3. Domain Repositories
+  // 6. Authentication Repository
+  if (!getIt.isRegistered<AuthRepository>()) {
+    getIt.registerLazySingleton<AuthRepository>(
+      () =>
+          customAuthRepository ??
+          AuthRepositoryImpl(
+            apiClient: getIt<ApiClient>(),
+            secureStorage: getIt<SecureStorageService>(),
+            supabase: getIt<SupabaseService>(),
+          ),
+    );
+  }
+
+  // 7. Domain Repositories
   if (!getIt.isRegistered<LanguageRepository>()) {
     getIt.registerLazySingleton<LanguageRepository>(
       () => SupabaseLanguageRepository(supabase: getIt<SupabaseService>()),
@@ -70,10 +110,15 @@ Future<void> setupServiceLocator({
     );
   }
 
-  // 4. Cubits (registered as factory for isolated state lifecycles)
+  // 8. Cubits (registered as factory for isolated state lifecycles)
   if (!getIt.isRegistered<AuthCubit>()) {
     getIt.registerFactory<AuthCubit>(
-      () => AuthCubit(supabase: getIt<SupabaseService>()),
+      () => AuthCubit(
+        supabase: getIt<SupabaseService>(),
+        secureStorage: getIt<SecureStorageService>(),
+        apiClient: getIt<ApiClient>(),
+        authRepository: getIt<AuthRepository>(),
+      ),
     );
   }
 
@@ -103,5 +148,6 @@ Future<void> setupServiceLocator({
 
 /// Resets all registered services in [getIt]. Useful for unit and widget testing.
 Future<void> resetServiceLocator() async {
+  resetAppRouter();
   await getIt.reset();
 }
