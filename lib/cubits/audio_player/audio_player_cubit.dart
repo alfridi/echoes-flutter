@@ -62,7 +62,11 @@ class AudioPlayerCubit extends Cubit<AudioPlaybackState> {
         currentPosition: Duration.zero,
       ));
 
-      await _player.setUrl(audioUrl);
+      if (audioUrl.startsWith('http://') || audioUrl.startsWith('https://')) {
+        await _player.setUrl(audioUrl);
+      } else {
+        await _player.setFilePath(audioUrl);
+      }
       await _player.setSpeed(state.playbackSpeed);
       await _player.setLoopMode(state.isLooping ? LoopMode.one : LoopMode.off);
       await _player.play();

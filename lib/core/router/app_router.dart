@@ -7,6 +7,8 @@ import '../../screens/auth/login_screen.dart';
 import '../../screens/language/language_detail_screen.dart';
 import '../../screens/map/world_map_screen.dart';
 import '../../screens/onboarding/onboarding_screen.dart';
+import '../../features/recordings/presentation/views/recording_screen.dart';
+import '../../features/recordings/presentation/views/recordings_screen.dart';
 import '../../screens/record/record_voice_screen.dart';
 import '../../screens/word/word_detail_screen.dart';
 
@@ -116,6 +118,17 @@ GoRouter createAppRouter({AuthCubit? authCubit}) {
       ),
       GoRoute(
         path: '/record',
+        builder: (context, state) => RecordingScreen(
+          wordId: state.uri.queryParameters['wordId'],
+          languageId: state.uri.queryParameters['languageId'],
+        ),
+      ),
+      GoRoute(
+        path: '/recordings',
+        builder: (context, state) => const RecordingsScreen(),
+      ),
+      GoRoute(
+        path: '/legacy-record',
         builder: (context, state) => RecordVoiceScreen(
           wordId: state.uri.queryParameters['wordId'] ?? 'welcome',
           languageId: state.uri.queryParameters['languageId'] ?? 'malayalam',

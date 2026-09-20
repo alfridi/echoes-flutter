@@ -91,6 +91,11 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            tooltip: 'My Recordings Archive',
+            icon: const Icon(Icons.library_music_outlined, size: 20),
+            onPressed: () => context.push('/recordings'),
+          ),
           BlocBuilder<AuthCubit, EchoesAuthState>(
             builder: (context, authState) {
               if (authState is Authenticated) {
@@ -608,7 +613,13 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
   Widget _buildNavTab(int index, IconData icon, String label) {
     final isSelected = _selectedNavIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _selectedNavIndex = index),
+      onTap: () {
+        if (index == 1) {
+          context.push('/recordings');
+        } else {
+          setState(() => _selectedNavIndex = index);
+        }
+      },
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),

@@ -10,6 +10,8 @@ import 'cubits/audio_player/audio_player_cubit.dart';
 import 'cubits/audio_recorder/audio_recorder_cubit.dart';
 import 'cubits/auth/auth_cubit.dart';
 import 'cubits/explore/explore_cubit.dart';
+import 'features/recordings/domain/repositories/recording_repository.dart'
+    as feature_rec;
 import 'repositories/language_repository.dart';
 import 'repositories/recording_repository.dart';
 import 'repositories/word_repository.dart';
@@ -71,6 +73,9 @@ class EchoesApp extends StatelessWidget {
         ),
         RepositoryProvider<RecordingRepository>.value(
           value: recordingRepository ?? getIt<RecordingRepository>(),
+        ),
+        RepositoryProvider<feature_rec.RecordingRepository>.value(
+          value: getIt<feature_rec.RecordingRepository>(),
         ),
       ],
       child: MultiBlocProvider(
